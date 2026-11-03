@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root { --ink:#00022b; --accent:#ffa01c; --pale:#f2f4f5; --line:#dbe0e5; }
+*,*::before,*::after { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:#fff; font-family:Inter,Arial,sans-serif; line-height:1.65; }
+a { color:#965900; text-underline-offset:3px; }
+a:hover { color:#704100; }
+a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+.topbar { padding:16px 24px; border-bottom:1px solid var(--line); background:#fff; }
+.topbar__inner { display:flex; align-items:center; justify-content:space-between; gap:20px; width:min(100%,1080px); margin:auto; }
+.brand { color:var(--ink); font:700 19px/1.2 'Playfair Display',Georgia,serif; text-decoration:none; }
+.back { font-size:14px; font-weight:600; }
+.hero { padding:72px 24px 54px; background:var(--pale); border-bottom:1px solid var(--line); }
+.hero__inner { width:min(100%,760px); margin:auto; }
+.eyebrow { margin:0 0 12px; color:#d17b00; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+h1,h2 { font-family:'Playfair Display',Georgia,serif; line-height:1.18; }
+h1 { margin:0; font-size:clamp(36px,6vw,58px); }
+.lead { max-width:650px; margin:18px 0 0; color:#30364c; font-size:17px; }
+.updated { margin:18px 0 0; color:#5b6172; font-size:13px; }
+.content { width:min(100% - 40px,760px); margin:0 auto; padding:52px 0 82px; }
+.content section + section { margin-top:38px; }
+h2 { margin:0 0 12px; font-size:clamp(23px,3vw,29px); }
+p { margin:0 0 14px; }
+p:last-child { margin-bottom:0; }
+ul { margin:10px 0 0; padding-left:22px; }
+li + li { margin-top:8px; }
+.notice { padding:18px 20px; border-left:4px solid var(--accent); border-radius:0 10px 10px 0; background:var(--pale); }
+.notice strong { color:var(--ink); }
+.footer { padding:38px 24px 44px; background:#000; color:#aeb2bf; text-align:center; font-size:13px; }
+.footer p { margin:0 0 9px; }
+.footer a { color:var(--accent); }
+.footer__brand { color:var(--accent); font:700 22px 'Playfair Display',Georgia,serif; }
+@media (max-width:600px) {
+  .topbar { padding:15px 16px; }
+  .brand { font-size:16px; }
+  .back { font-size:12px; }
+  .hero { padding:48px 20px 38px; }
+  .lead { font-size:15px; }
+  .content { width:calc(100% - 36px); padding:38px 0 64px; }
+  .content section + section { margin-top:32px; }
+}
