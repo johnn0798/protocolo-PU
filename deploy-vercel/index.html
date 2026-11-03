@@ -160,6 +160,7 @@
     /* Sistema visual unificado: a mesma estrutura atende mobile e desktop. */
     :root { --ink:#00022b; --copper:#ffa01c; --gold:#ffa01c; --cream:#eef1f4; --line:#d8dde3; }
     body { overflow-x:hidden; color:#11131b; background:#fff; }
+    .announcement { display:flex; align-items:center; justify-content:center; min-height:48px; padding:12px 20px; background:#c1121f; color:#fff; font-size:clamp(14px,1.5vw,19px); font-weight:800; line-height:1.25; letter-spacing:.01em; text-align:center; }
     .button { border:0; color:#070707; cursor:pointer; font:800 15px/1.2 Inter,Arial,sans-serif; }
     .section-title,.because,.cost__title,.footer__brand,.value-line,.immeasurable { font-family:"Bebas Neue",Impact,sans-serif; font-weight:400; }
     .section-title { color:var(--ink); letter-spacing:.005em; }
@@ -273,6 +274,7 @@
   </style>
 </head>
 <body>
+  <div class="announcement" role="status">A maior transformação do mercado do bronze. Ponto. Não vão nos calar.</div>
   <main>
     <section class="hero" aria-label="Protocolo Produto Único">
       <div class="hero__desktop">
