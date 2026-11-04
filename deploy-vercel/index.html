@@ -528,14 +528,14 @@
     </article>
     </div>
   </aside>
-  <script src="/pixel.js" data-endpoint="/_analytics/track" data-product="ppu-2.0"></script>
+  <script src="/pixel.js" data-endpoint="/_analytics/track" data-product="ppu-2.0" data-mode="audience_measurement"></script>
   <script>
     (function () {
       const consentKey = 'ppu_analytics_consent';
       const settings = document.getElementById('tracking-settings');
       let choice;
       try { choice = localStorage.getItem(consentKey); } catch (_) { choice = null; }
-      if (choice !== 'denied') window.TrackingPixel.setConsent(true);
+      if (choice !== 'denied') window.TrackingPixel.setEnabled(true);
       settings.textContent = choice === 'denied' ? 'Ativar análise' : 'Desativar análise';
       settings.addEventListener('click', function () {
         const next = choice === 'denied' ? 'granted' : 'denied';
@@ -546,7 +546,7 @@
             sessionStorage.removeItem('tracking_session');
           }
         } catch (_) {}
-        window.TrackingPixel.setConsent(next === 'granted');
+        window.TrackingPixel.setEnabled(next === 'granted');
         window.location.reload();
       });
       const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';

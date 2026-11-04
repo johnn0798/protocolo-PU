@@ -2,7 +2,8 @@
   'use strict';
   var script = document.currentScript;
   var endpoint = script && script.dataset.endpoint || '/api/track';
-  var consent = false;
+  var enabled = false;
+  var collectionMode = script && script.dataset.mode === 'audience_measurement' ? 'audience_measurement' : 'consent';
   var started = false;
   var visitorId;
   var sessionId;
@@ -17,9 +18,10 @@
     return navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1';
   }
   function send(name) {
-    if (!consent || privacyBlocks() || !/^[a-z][a-z0-9_]{0,39}$/.test(name)) return;
+    if (!enabled || privacyBlocks() || !/^[a-z][a-z0-9_]{0,39}$/.test(name)) return;
     var body = {
-      consent: true, visitor_id: visitorId, session_id: sessionId, name: name,
+      consent: collectionMode === 'consent', collection_mode: collectionMode,
+      visitor_id: visitorId, session_id: sessionId, name: name,
       page: location.origin + location.pathname,
       campaign: read('campaign', script && script.dataset.campaign),
       ambassador: read('ambassador', script && script.dataset.ambassador),
@@ -31,9 +33,9 @@
     fetch(endpoint, { method: 'POST', mode: 'cors', credentials: 'omit', keepalive: true,
       headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).catch(function () {});
   }
-  function setConsent(granted) {
-    consent = granted === true && !privacyBlocks();
-    if (!consent || started) return;
+  function setEnabled(granted) {
+    enabled = granted === true && !privacyBlocks();
+    if (!enabled || started) return;
     visitorId = id('tracking_visitor', localStorage);
     sessionId = id('tracking_session', sessionStorage);
     started = true;
@@ -44,7 +46,7 @@
     var element = event.target && event.target.closest && event.target.closest('[data-track-cta]');
     if (element) send('cta_click');
   });
-  window.TrackingPixel = { setConsent: setConsent, track: send };
-  if (script && script.dataset.consent === 'granted') setConsent(true);
+  window.TrackingPixel = { setConsent: setEnabled, setEnabled: setEnabled, track: send };
+  if (script && script.dataset.consent === 'granted' && collectionMode === 'consent') setEnabled(true);
 })();
 
