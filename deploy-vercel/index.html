@@ -272,6 +272,20 @@
       .questions__cta,.solution__cta,.final-offer__cta,.cost__cta { width:100%; }
     }
     .tracking-settings { border:0; padding:0; background:none; color:inherit; text-decoration:underline; cursor:pointer; }
+
+    /* Segunda dobra: galeria visual de resultados */
+    .proof { background:linear-gradient(180deg,#fffaf1 0%,#fff 100%); }
+    .proof__intro { text-align:center; max-width:760px; margin:0 auto 32px; }
+    .proof__intro .section-lead { margin-inline:auto; }
+    .proof__gallery { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .proof__item { position:relative; display:block; aspect-ratio:3/4; overflow:hidden; border-radius:16px; background:#f2e8da; box-shadow:0 8px 24px #26140c16; }
+    .proof__item img { width:100%; height:100%; object-fit:cover; transition:transform .25s ease; }
+    .proof__item:hover img { transform:scale(1.04); }
+    .proof__item:focus-visible { outline:3px solid #ffa01c; outline-offset:3px; }
+    .proof__number { position:absolute; bottom:10px; left:10px; padding:7px 11px; border-radius:100px; background:#16131bd9; color:white; font-size:12px; font-weight:700; }
+    .proof__note { margin-top:20px; text-align:center; color:#74685e; font-size:12px; line-height:1.5; }
+    @media(max-width:899px) { .proof__gallery { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .proof__item { border-radius:12px; } }
+    @media(max-width:600px) { .proof__intro { margin-bottom:24px; } .proof__number { font-size:10px; padding:6px 9px; } }
   </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -308,6 +322,28 @@
       </div>
       <button class="button hero__cta hero__cta--desktop" type="button" data-checkout>Quero o Protocolo Produto Único</button>
       <button class="button hero__cta hero__cta--mobile" type="button" data-checkout>Acessar agora</button>
+    </section>
+
+
+    <section class="proof" aria-labelledby="proof-title">
+      <div class="container">
+        <div class="proof__intro">
+          <p class="eyebrow">Galeria de resultados</p>
+          <h2 class="section-title" id="proof-title">O resultado é o que fala mais alto.</h2>
+          <p class="section-lead">Conheça registros visuais de bronzeamento. Toque em uma imagem para visualizá-la em tamanho maior.</p>
+        </div>
+        <div class="proof__gallery" aria-label="Galeria de oito fotografias de bronzeamento">
+          <a class="proof__item" href="https://drive.google.com/file/d/1RynDeEF1n01PGLEUvQUDooFmSoyfj2ag/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 1"><img src="https://drive.google.com/thumbnail?id=1RynDeEF1n01PGLEUvQUDooFmSoyfj2ag&sz=w1000" alt="Fotografia de resultado de bronzeamento 1" loading="lazy" decoding="async"><span class="proof__number">Resultado 01</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1olI-_Q6YhPWSDexODRSd87Kgx7lOWR8C/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 2"><img src="https://drive.google.com/thumbnail?id=1olI-_Q6YhPWSDexODRSd87Kgx7lOWR8C&sz=w1000" alt="Fotografia de resultado de bronzeamento 2" loading="lazy" decoding="async"><span class="proof__number">Resultado 02</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1RxwGvpblhTbVv1Uno6TEQhi7REXjm46f/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 3"><img src="https://drive.google.com/thumbnail?id=1RxwGvpblhTbVv1Uno6TEQhi7REXjm46f&sz=w1000" alt="Fotografia de resultado de bronzeamento 3" loading="lazy" decoding="async"><span class="proof__number">Resultado 03</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1E_mNktJQwy6Z3ZW4kLJRqd-TDmLx6AiF/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 4"><img src="https://drive.google.com/thumbnail?id=1E_mNktJQwy6Z3ZW4kLJRqd-TDmLx6AiF&sz=w1000" alt="Fotografia de resultado de bronzeamento 4" loading="lazy" decoding="async"><span class="proof__number">Resultado 04</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1WZhI9bsJOdmew_YzgUjZfhecZlMULwYY/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 5"><img src="https://drive.google.com/thumbnail?id=1WZhI9bsJOdmew_YzgUjZfhecZlMULwYY&sz=w1000" alt="Fotografia de resultado de bronzeamento 5" loading="lazy" decoding="async"><span class="proof__number">Resultado 05</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1vVr_nxJQ_Hm4RJVPe4cJfzibBoBV0-ci/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 6"><img src="https://drive.google.com/thumbnail?id=1vVr_nxJQ_Hm4RJVPe4cJfzibBoBV0-ci&sz=w1000" alt="Fotografia de resultado de bronzeamento 6" loading="lazy" decoding="async"><span class="proof__number">Resultado 06</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/1aAenkOpHgNKIEYzm_5R3Rr6e_I7yTBes/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 7"><img src="https://drive.google.com/thumbnail?id=1aAenkOpHgNKIEYzm_5R3Rr6e_I7yTBes&sz=w1000" alt="Fotografia de resultado de bronzeamento 7" loading="lazy" decoding="async"><span class="proof__number">Resultado 07</span></a>
+          <a class="proof__item" href="https://drive.google.com/file/d/11jukuOP1Gkv6FWrKgTYFf4PdjN1hoWcq/view" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografia de resultado 8"><img src="https://drive.google.com/thumbnail?id=11jukuOP1Gkv6FWrKgTYFf4PdjN1hoWcq&sz=w1000" alt="Fotografia de resultado de bronzeamento 8" loading="lazy" decoding="async"><span class="proof__number">Resultado 08</span></a>
+        </div>
+        <p class="proof__note">Imagens ilustrativas de resultados de bronzeamento. Os resultados individuais podem variar.</p>
+      </div>
     </section>
 
     <section class="story" aria-labelledby="story-title">
