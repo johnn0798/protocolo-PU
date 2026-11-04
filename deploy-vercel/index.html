@@ -271,12 +271,6 @@
       .guarantee__seal strong { font-size:90px; }
       .questions__cta,.solution__cta,.final-offer__cta,.cost__cta { width:100%; }
     }
-    .tracking-consent { position:fixed; z-index:1000; left:16px; right:16px; bottom:16px; max-width:600px; margin:auto; padding:18px; border:1px solid #d8c5a5; border-radius:16px; background:#fffdf8; color:#26140c; box-shadow:0 16px 50px #0004; font:14px/1.5 Inter,Arial,sans-serif; }
-    .tracking-consent[hidden] { display:none; }
-    .tracking-consent p { margin:0 0 12px; }
-    .tracking-consent__actions { display:flex; flex-wrap:wrap; gap:10px; }
-    .tracking-consent button { border:1px solid #a86c2d; border-radius:8px; padding:9px 15px; background:#c98424; color:#26140c; font-weight:700; }
-    .tracking-consent button[data-consent="deny"] { background:transparent; }
     .tracking-settings { border:0; padding:0; background:none; color:inherit; text-decoration:underline; cursor:pointer; }
   </style>
 </head>
@@ -519,7 +513,7 @@
       </section>
       <section><h3>4. Serviços externos e compartilhamento</h3>
         <p>A página carrega fontes pelo Google Fonts e usa serviços de hospedagem, que podem receber dados técnicos de conexão. O checkout é oferecido pela Kiwify. Dados também podem ser compartilhados com prestadores envolvidos na entrega e no suporte do produto, na medida necessária, ou quando houver exigência legal.</p>
-        <p>Esta página não inclui formulário de captura de leads. Com seu consentimento, usamos um pixel próprio para medir visitas e cliques nos botões de compra. Ele registra identificadores aleatórios do visitante e da sessão, o caminho da página, data e hora, parâmetros UTM, campanha, produto e embaixadora quando presentes. Os identificadores são guardados no armazenamento do navegador após o aceite. O banco de analytics não armazena nome, e-mail, IP nem dados de pagamento. Você pode recusar ou alterar sua escolha em “Preferências de análise” no rodapé.</p>
+        <p>Esta página não inclui formulário de captura de leads. Usamos um pixel próprio para medir visitas e cliques nos botões de compra. A análise começa ao abrir a página, exceto se você desativá-la no rodapé ou se o navegador sinalizar Global Privacy Control ou Do Not Track. Ele registra identificadores aleatórios do visitante e da sessão, o caminho da página, data e hora, parâmetros UTM, campanha, produto e embaixadora quando presentes. Os identificadores aleatórios são guardados no armazenamento do navegador enquanto a análise estiver ativa. O banco de analytics não armazena nome, e-mail, IP nem dados de pagamento. Você pode desativar ou reativar a análise pelo controle no rodapé.</p>
       </section>
       <section><h3>5. Armazenamento e proteção</h3>
         <p>Os dados serão mantidos pelo tempo necessário às finalidades descritas, ao atendimento de direitos e às obrigações legais. O prazo concreto pode variar conforme o tipo de dado e a finalidade. São adotadas medidas de segurança proporcionais aos serviços utilizados; nenhum ambiente digital oferece segurança absoluta.</p>
@@ -534,30 +528,26 @@
     </article>
     </div>
   </aside>
-  <div class="tracking-consent" id="tracking-consent" role="dialog" aria-label="Preferências de análise" hidden>
-    <p>Podemos usar analytics próprio para medir visitas e cliques nesta página? Você pode mudar sua escolha depois em “Preferências de análise”. <a href="#politica-de-privacidade">Saiba mais</a>.</p>
-    <div class="tracking-consent__actions"><button type="button" data-consent="allow">Aceitar</button><button type="button" data-consent="deny">Recusar</button></div>
-  </div>
   <script src="/pixel.js" data-endpoint="/_analytics/track" data-product="ppu-2.0"></script>
   <script>
     (function () {
-      const banner = document.getElementById('tracking-consent');
       const consentKey = 'ppu_analytics_consent';
+      const settings = document.getElementById('tracking-settings');
       let choice;
       try { choice = localStorage.getItem(consentKey); } catch (_) { choice = null; }
-      if (choice === 'granted') window.TrackingPixel.setConsent(true);
-      else if (choice !== 'denied') banner.hidden = false;
-      document.getElementById('tracking-settings').addEventListener('click', function () { banner.hidden = false; });
-      banner.querySelectorAll('[data-consent]').forEach(function (button) {
-        button.addEventListener('click', function () {
-          const granted = button.dataset.consent === 'allow';
-          try {
-            localStorage.setItem(consentKey, granted ? 'granted' : 'denied');
-            if (!granted) { localStorage.removeItem('tracking_visitor'); sessionStorage.removeItem('tracking_session'); }
-          } catch (_) {}
-          window.TrackingPixel.setConsent(granted);
-          banner.hidden = true;
-        });
+      if (choice !== 'denied') window.TrackingPixel.setConsent(true);
+      settings.textContent = choice === 'denied' ? 'Ativar análise' : 'Desativar análise';
+      settings.addEventListener('click', function () {
+        const next = choice === 'denied' ? 'granted' : 'denied';
+        try {
+          localStorage.setItem(consentKey, next);
+          if (next === 'denied') {
+            localStorage.removeItem('tracking_visitor');
+            sessionStorage.removeItem('tracking_session');
+          }
+        } catch (_) {}
+        window.TrackingPixel.setConsent(next === 'granted');
+        window.location.reload();
       });
       const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';
       document.querySelectorAll('[data-checkout]').forEach(function (button) {
