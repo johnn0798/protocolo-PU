@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/_analytics/track",
+      "destination": "https://tracking-analytics-mvp.vercel.app/api/track"
+    }
+  ]
 }
-
