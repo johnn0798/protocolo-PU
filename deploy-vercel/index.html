@@ -2533,15 +2533,15 @@
   <script>
     (function () {
       /*
-       * Em produção, preencha window.PPU_PURCHASES com compras verificadas:
+       * Demonstração temporária: antes de iniciar campanhas, preencha
+       * window.PPU_PURCHASES com compras verificadas no formato:
        * [{ name: 'Primeiro nome', state: 'UF', minutesAgo: 3 }]
-       * O parâmetro ?previewPurchases=1 habilita somente a demonstração visual.
        */
-      const previewMode = new URLSearchParams(window.location.search).get('previewPurchases') === '1';
       const verifiedPurchases = Array.isArray(window.PPU_PURCHASES) ? window.PPU_PURCHASES : [];
-      const purchases = verifiedPurchases.length ? verifiedPurchases : (previewMode
-        ? [{ name: 'Mariana', state: 'PE', minutesAgo: 3 }]
-        : []);
+      // Demonstração temporária ativa enquanto a página não está em campanha.
+      // Antes da divulgação, substitua por dados verificados em window.PPU_PURCHASES.
+      const demoPurchases = [{ name: 'Mariana', state: 'PE', minutesAgo: 3 }];
+      const purchases = verifiedPurchases.length ? verifiedPurchases : demoPurchases;
       const toast = document.getElementById('purchaseToast');
       if (!toast || !purchases.length) return;
 
