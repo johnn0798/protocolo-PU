@@ -1801,6 +1801,93 @@
         max-width: 240px;
       }
     }
+  
+    /* Notificação minimalista de compra */
+    .purchase-toast {
+      position: fixed;
+      left: clamp(12px, 3vw, 28px);
+      bottom: clamp(12px, 3vw, 28px);
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: min(390px, calc(100vw - 24px));
+      padding: 14px 16px;
+      color: #101b43;
+      background: #fff;
+      border: 1px solid rgba(16, 27, 67, .12);
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(16, 27, 67, .14);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px);
+      transition: opacity .28s ease, transform .28s ease, visibility .28s ease;
+      pointer-events: none;
+    }
+    .purchase-toast.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .purchase-toast__check {
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      color: #168a45;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .purchase-toast__content {
+      display: grid;
+      min-width: 0;
+      line-height: 1.22;
+    }
+    .purchase-toast__label {
+      margin-bottom: 3px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .1em;
+    }
+    .purchase-toast__buyer {
+      overflow: hidden;
+      font-size: 15px;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .purchase-toast__message {
+      font-size: 13px;
+    }
+    .purchase-toast__time {
+      margin-top: 3px;
+      color: #6b7280;
+      font-size: 11px;
+    }
+    @media (max-width: 480px) {
+      .purchase-toast {
+        gap: 10px;
+        padding: 12px 13px;
+        border-radius: 14px;
+      }
+      .purchase-toast__check {
+        flex-basis: 30px;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+      }
+      .purchase-toast__buyer { font-size: 14px; }
+      .purchase-toast__message { font-size: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .purchase-toast { transition: none; transform: none; }
+    }
+
   </style>
   <!-- META PIXELS - FACEBOOK ADS -->
   <script>
@@ -2369,6 +2456,16 @@
       </article>
     </div>
   </aside>
+  <aside class="purchase-toast" id="purchaseToast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span class="purchase-toast__check" aria-hidden="true">✓</span>
+    <span class="purchase-toast__content">
+      <span class="purchase-toast__label">COMPRA CONFIRMADA</span>
+      <strong class="purchase-toast__buyer" data-purchase-buyer></strong>
+      <span class="purchase-toast__message">acabou de garantir o acesso</span>
+      <small class="purchase-toast__time" data-purchase-time></small>
+    </span>
+  </aside>
+
   <script>
     (function () {
       const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';
@@ -2432,6 +2529,61 @@
       observer.observe(compare);
     }());
   </script>
+
+  <script>
+    (function () {
+      /*
+       * Em produção, preencha window.PPU_PURCHASES com compras verificadas:
+       * [{ name: 'Primeiro nome', state: 'UF', minutesAgo: 3 }]
+       * O parâmetro ?previewPurchases=1 habilita somente a demonstração visual.
+       */
+      const previewMode = new URLSearchParams(window.location.search).get('previewPurchases') === '1';
+      const verifiedPurchases = Array.isArray(window.PPU_PURCHASES) ? window.PPU_PURCHASES : [];
+      const purchases = verifiedPurchases.length ? verifiedPurchases : (previewMode
+        ? [{ name: 'Mariana', state: 'PE', minutesAgo: 3 }]
+        : []);
+      const toast = document.getElementById('purchaseToast');
+      if (!toast || !purchases.length) return;
+
+      const buyer = toast.querySelector('[data-purchase-buyer]');
+      const time = toast.querySelector('[data-purchase-time]');
+      let current = 0;
+      let hideTimer;
+      let cycleTimer;
+
+      function sanitizeText(value) {
+        return String(value == null ? '' : value).trim();
+      }
+      function validPurchase(item) {
+        return item && sanitizeText(item.name) && /^[A-Z]{2}$/.test(sanitizeText(item.state).toUpperCase());
+      }
+      function showPurchase() {
+        const valid = purchases.filter(validPurchase);
+        if (!valid.length) return;
+        const item = valid[current % valid.length];
+        const minutes = Math.max(1, Number.parseInt(item.minutesAgo, 10) || 1);
+        buyer.textContent = sanitizeText(item.name) + ', ' + sanitizeText(item.state).toUpperCase();
+        time.textContent = 'há ' + minutes + (minutes === 1 ? ' minuto' : ' minutos');
+        toast.hidden = false;
+        requestAnimationFrame(function () { toast.classList.add('is-visible'); });
+        window.clearTimeout(hideTimer);
+        hideTimer = window.setTimeout(function () {
+          toast.classList.remove('is-visible');
+          current += 1;
+        }, 6000);
+      }
+
+      window.setTimeout(function () {
+        showPurchase();
+        if (purchases.length > 1) cycleTimer = window.setInterval(showPurchase, 18000);
+      }, 7000);
+      window.addEventListener('pagehide', function () {
+        window.clearTimeout(hideTimer);
+        window.clearInterval(cycleTimer);
+      });
+    }());
+  </script>
+
 </body>
 
 </html>
