@@ -50,6 +50,9 @@
     img {
       display: block;
       max-width: 100%;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+      user-select: none;
     }
 
     h1,
@@ -2374,6 +2377,21 @@
   <script>
     (function () {
       const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';
+      const protectedImages = document.querySelectorAll('img');
+      protectedImages.forEach(function (image) {
+        image.draggable = false;
+        image.setAttribute('draggable', 'false');
+        image.classList.add('image-protected');
+      });
+      document.addEventListener('contextmenu', function (event) {
+        if (event.target.closest('img, .image-protected')) event.preventDefault();
+      });
+      document.addEventListener('dragstart', function (event) {
+        if (event.target.closest('img, .image-protected')) event.preventDefault();
+      });
+      document.addEventListener('selectstart', function (event) {
+        if (event.target.closest('img, .image-protected')) event.preventDefault();
+      });
       document.querySelectorAll('[data-checkout]').forEach(function (button) {
         button.addEventListener('click', function () { window.location.assign(checkoutUrl); });
       });
