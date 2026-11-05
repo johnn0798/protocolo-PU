@@ -1703,7 +1703,10 @@
     }
 
     .testimonials__item {
-      flex: 0 0 clamp(200px, 22vw, 245px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 clamp(220px, 24vw, 260px);
       scroll-snap-align: center;
       border: 1px solid #e1e4e8;
       border-radius: 16px;
@@ -1720,9 +1723,10 @@
 
     .testimonials__img {
       width: 100%;
-      aspect-ratio: 4/4.3;
-      object-fit: cover;
-      object-position: top center;
+      height: auto;
+      max-height: 260px;
+      object-fit: contain;
+      object-position: center;
       border-radius: 11px;
     }
 
@@ -1811,8 +1815,9 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      width: min(390px, calc(100vw - 24px));
-      padding: 14px 16px;
+      width: auto;
+      max-width: min(300px, calc(100vw - 24px));
+      padding: 10px 14px 10px 10px;
       color: #101b43;
       background: #fff;
       border: 1px solid rgba(16, 27, 67, .12);
@@ -1871,18 +1876,26 @@
     }
     @media (max-width: 480px) {
       .purchase-toast {
-        gap: 10px;
-        padding: 12px 13px;
-        border-radius: 14px;
+        left: 10px;
+        bottom: 10px;
+        gap: 8px;
+        max-width: 230px;
+        padding: 7px 11px 7px 7px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(16, 27, 67, .14);
       }
       .purchase-toast__check {
-        flex-basis: 30px;
-        width: 30px;
-        height: 30px;
-        font-size: 18px;
+        flex-basis: 24px;
+        width: 24px;
+        height: 24px;
+        border-width: 1.5px;
+        font-size: 13px;
       }
-      .purchase-toast__buyer { font-size: 14px; }
-      .purchase-toast__message { font-size: 12px; }
+      .purchase-toast__content { line-height: 1.15; }
+      .purchase-toast__label { margin-bottom: 1px; font-size: 8px; }
+      .purchase-toast__buyer { font-size: 12px; }
+      .purchase-toast__message { font-size: 11px; }
+      .purchase-toast__time { margin-top: 1px; font-size: 9px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .purchase-toast { transition: none; transform: none; }
@@ -2461,7 +2474,6 @@
     <span class="purchase-toast__content">
       <span class="purchase-toast__label">COMPRA CONFIRMADA</span>
       <strong class="purchase-toast__buyer" data-purchase-buyer></strong>
-      <span class="purchase-toast__message">acabou de garantir o acesso</span>
       <small class="purchase-toast__time" data-purchase-time></small>
     </span>
   </aside>
@@ -2532,54 +2544,61 @@
 
   <script>
     (function () {
-      /*
-       * Demonstração temporária: antes de iniciar campanhas, preencha
-       * window.PPU_PURCHASES com compras verificadas no formato:
-       * [{ name: 'Primeiro nome', state: 'UF', minutesAgo: 3 }]
-       */
-      const verifiedPurchases = Array.isArray(window.PPU_PURCHASES) ? window.PPU_PURCHASES : [];
-      // Demonstração temporária ativa enquanto a página não está em campanha.
-      // Antes da divulgação, substitua por dados verificados em window.PPU_PURCHASES.
-      const demoPurchases = [{ name: 'Mariana', state: 'PE', minutesAgo: 3 }];
-      const purchases = verifiedPurchases.length ? verifiedPurchases : demoPurchases;
+      const buyerNames = [
+        "Ana Paula - BA", "Juliana - SP", "Fernanda - RJ", "Bruna - MG", "Patricia - RS",
+        "Camila - SC", "Amanda - PR", "Jessica - GO", "Leticia - PE", "Mariana - CE",
+        "Vanessa - ES", "Larissa - MT", "Gabriela - MS", "Beatriz - DF", "Luana - AM",
+        "Rafaela - PA", "Caroline - RN", "Daniela - PB", "Renata - MA", "Isadora - AL",
+        "Thais - SE", "Natalia - PI", "Barbara - RO", "Andressa - TO", "Debora - AC",
+        "Bianca - AP", "Viviane - RR", "Jaqueline - SP", "Priscila - RJ", "Alice - MG",
+        "Laura - RS", "Manuela - BA", "Helena - PE", "Valentina - CE", "Sophia - SC",
+        "Lorena - PR", "Yasmin - GO", "Isabela - DF", "Heloisa - ES", "Luiza - MT"
+      ];
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      let shuffledBuyers = shuffleArray([...buyerNames]);
+      let currentBuyerIndex = 0;
       const toast = document.getElementById('purchaseToast');
-      if (!toast || !purchases.length) return;
+      if (!toast) return;
 
       const buyer = toast.querySelector('[data-purchase-buyer]');
       const time = toast.querySelector('[data-purchase-time]');
-      let current = 0;
       let hideTimer;
-      let cycleTimer;
+      let nextTimer;
 
-      function sanitizeText(value) {
-        return String(value == null ? '' : value).trim();
-      }
-      function validPurchase(item) {
-        return item && sanitizeText(item.name) && /^[A-Z]{2}$/.test(sanitizeText(item.state).toUpperCase());
-      }
-      function showPurchase() {
-        const valid = purchases.filter(validPurchase);
-        if (!valid.length) return;
-        const item = valid[current % valid.length];
-        const minutes = Math.max(1, Number.parseInt(item.minutesAgo, 10) || 1);
-        buyer.textContent = sanitizeText(item.name) + ', ' + sanitizeText(item.state).toUpperCase();
-        time.textContent = 'há ' + minutes + (minutes === 1 ? ' minuto' : ' minutos');
+      function showNotification() {
+        if (currentBuyerIndex >= shuffledBuyers.length) {
+          shuffledBuyers = shuffleArray([...buyerNames]);
+          currentBuyerIndex = 0;
+        }
+
+        buyer.textContent = shuffledBuyers[currentBuyerIndex];
+        const timeAgo = Math.floor(Math.random() * 13);
+        time.textContent = timeAgo === 0 ? 'Agora' : (timeAgo === 1 ? 'Há 1 minuto' : 'Há ' + timeAgo + ' minutos');
+
         toast.hidden = false;
         requestAnimationFrame(function () { toast.classList.add('is-visible'); });
+        currentBuyerIndex++;
+
         window.clearTimeout(hideTimer);
         hideTimer = window.setTimeout(function () {
           toast.classList.remove('is-visible');
-          current += 1;
-        }, 6000);
+          const nextInterval = Math.floor(Math.random() * 12000) + 8000;
+          nextTimer = window.setTimeout(showNotification, nextInterval);
+        }, 5000);
       }
 
-      window.setTimeout(function () {
-        showPurchase();
-        if (purchases.length > 1) cycleTimer = window.setInterval(showPurchase, 18000);
-      }, 7000);
+      nextTimer = window.setTimeout(showNotification, 5000);
       window.addEventListener('pagehide', function () {
         window.clearTimeout(hideTimer);
-        window.clearInterval(cycleTimer);
+        window.clearTimeout(nextTimer);
       });
     }());
   </script>
