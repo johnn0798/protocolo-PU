@@ -1901,6 +1901,169 @@
       .purchase-toast { transition: none; transform: none; }
     }
 
+    /* Captura de lead antes do checkout */
+    body.modal-open { overflow: hidden; }
+    .lead-modal[hidden] { display: none; }
+    .lead-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(22, 12, 8, .62);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity .22s ease;
+    }
+    .lead-modal.is-open { opacity: 1; }
+    .lead-modal__panel {
+      position: relative;
+      width: min(100%, 520px);
+      max-height: min(760px, calc(100dvh - 28px));
+      overflow: auto;
+      padding: clamp(28px, 6vw, 44px);
+      border: 1px solid #ead9bd;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255, 160, 28, .13), transparent 35%),
+        #fffdf8;
+      box-shadow: 0 28px 80px rgba(38, 20, 12, .28);
+      transform: translateY(18px) scale(.985);
+      transition: transform .22s ease;
+    }
+    .lead-modal.is-open .lead-modal__panel { transform: none; }
+    .lead-modal__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: #f6ecdc;
+      color: #5b4031;
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .lead-modal__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: #a85f10;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .lead-modal__eyebrow::before {
+      content: "✓";
+      display: grid;
+      width: 23px;
+      height: 23px;
+      place-items: center;
+      border-radius: 50%;
+      background: #1f8a4c;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+    .lead-modal__title {
+      max-width: 390px;
+      color: var(--ink);
+      font: 700 clamp(34px, 8vw, 48px)/1 Playfair Display, Georgia, serif;
+      letter-spacing: -.035em;
+    }
+    .lead-modal__subtitle {
+      margin-top: 12px;
+      color: #6c5847;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .lead-form { margin-top: 26px; }
+    .lead-form__field { display: block; margin-bottom: 18px; }
+    .lead-form__label {
+      display: block;
+      margin: 0 0 8px 3px;
+      color: #7f4f1e;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    .lead-form__input {
+      width: 100%;
+      min-height: 56px;
+      padding: 14px 16px;
+      border: 1px solid #ddc7a7;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font: 500 16px/1.2 Inter, Arial, sans-serif;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .lead-form__input::placeholder { color: #aa9c90; }
+    .lead-form__input:focus {
+      border-color: #c98424;
+      box-shadow: 0 0 0 4px rgba(201, 132, 36, .14);
+    }
+    .lead-form__submit {
+      width: 100%;
+      min-height: 58px;
+      margin-top: 4px;
+      border: 1px solid #d47a00;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffb84d, #f39614);
+      color: #26140c;
+      font: 800 14px/1 Inter, Arial, sans-serif;
+      letter-spacing: .045em;
+      box-shadow: 0 10px 24px rgba(201, 132, 36, .26);
+      cursor: pointer;
+    }
+    .lead-form__submit:hover { background: linear-gradient(180deg, #ffc667, #ffa01c); }
+    .lead-form__submit:disabled { cursor: wait; opacity: .7; }
+    .lead-form__privacy {
+      margin-top: 15px;
+      color: #8b7c70;
+      font-size: 10px;
+      line-height: 1.45;
+      text-align: center;
+    }
+    .lead-form__privacy a { text-underline-offset: 2px; }
+    .lead-form__error {
+      min-height: 18px;
+      margin: 5px 0 0;
+      color: #a62b21;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .lead-form__trap {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px !important;
+      height: 1px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    @media (max-width: 520px) {
+      .lead-modal { align-items: end; padding: 0; }
+      .lead-modal__panel {
+        width: 100%;
+        max-height: calc(100dvh - 18px);
+        padding: 30px 22px 22px;
+        border-radius: 26px 26px 0 0;
+      }
+      .lead-modal__title { font-size: 37px; }
+      .lead-modal__subtitle { font-size: 14px; }
+      .lead-form { margin-top: 22px; }
+      .lead-form__input { min-height: 54px; }
+    }
+
   </style>
   <!-- META PIXELS - FACEBOOK ADS -->
   <script>
@@ -2443,8 +2606,10 @@
           <p>A página carrega fontes pelo Google Fonts e usa serviços de hospedagem, que podem receber dados técnicos de
             conexão. O checkout é oferecido pela Kiwify. Dados também podem ser compartilhados com prestadores
             envolvidos na entrega e no suporte do produto, na medida necessária, ou quando houver exigência legal.</p>
-          <p>Esta página não inclui, em seu código atual, formulário de captura de leads nem ferramenta própria de
-            análise de comportamento. Se esses recursos forem adicionados, esta política deverá ser atualizada.</p>
+          <p>Antes do redirecionamento ao checkout, podemos solicitar nome e WhatsApp para viabilizar o atendimento,
+            recuperar uma compra não concluída e enviar comunicações relacionadas a esta oferta. Esses dados, juntamente
+            com parâmetros de campanha e a página de origem, são armazenados em ambiente protegido e organizados em
+            planilha de acesso restrito à operação do Protocolo Produto Único.</p>
         </section>
         <section>
           <h3>5. Armazenamento e proteção</h3>
@@ -2478,6 +2643,36 @@
     </span>
   </aside>
 
+  <div class="lead-modal" id="leadCaptureModal" role="dialog" aria-modal="true"
+    aria-labelledby="leadCaptureTitle" aria-describedby="leadCaptureDescription" aria-hidden="true" hidden>
+    <div class="lead-modal__panel" role="document">
+      <button class="lead-modal__close" type="button" aria-label="Fechar" data-lead-close>×</button>
+      <span class="lead-modal__eyebrow">Ambiente seguro</span>
+      <h2 class="lead-modal__title" id="leadCaptureTitle">Estamos quase lá</h2>
+      <p class="lead-modal__subtitle" id="leadCaptureDescription">Preencha seus dados para seguir ao pagamento com segurança.</p>
+      <form class="lead-form" id="leadCaptureForm" novalidate>
+        <label class="lead-form__field">
+          <span class="lead-form__label">NOME</span>
+          <input class="lead-form__input" id="leadName" name="nome" type="text" autocomplete="name"
+            placeholder="Digite seu nome" minlength="2" maxlength="120" required>
+        </label>
+        <label class="lead-form__field">
+          <span class="lead-form__label">WHATSAPP</span>
+          <input class="lead-form__input" id="leadWhatsapp" name="whatsapp" type="tel" autocomplete="tel"
+            inputmode="numeric" placeholder="(00) 00000-0000" maxlength="16" required>
+        </label>
+        <label class="lead-form__trap" aria-hidden="true">
+          <span>Website</span><input name="website" type="text" tabindex="-1" autocomplete="off">
+        </label>
+        <p class="lead-form__error" id="leadCaptureError" aria-live="polite"></p>
+        <button class="lead-form__submit" type="submit">CONTINUAR PARA O PAGAMENTO</button>
+        <p class="lead-form__privacy">Ao continuar, você concorda com os <a href="#termos-de-uso" data-lead-legal>Termos de Uso</a>
+          e a <a href="#politica-de-privacidade" data-lead-legal>Política de Privacidade</a>, incluindo o contato sobre esta oferta.</p>
+      </form>
+    </div>
+  </div>
+
+
   <script>
     (function () {
       const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';
@@ -2496,8 +2691,142 @@
       document.addEventListener('selectstart', function (event) {
         if (event.target.closest('img, .image-protected')) event.preventDefault();
       });
+
+      const leadEndpoint = 'https://evugrpkehilkcxkakapq.supabase.co/functions/v1/ppu-leads';
+      const leadModal = document.getElementById('leadCaptureModal');
+      const leadForm = document.getElementById('leadCaptureForm');
+      const leadName = document.getElementById('leadName');
+      const leadWhatsapp = document.getElementById('leadWhatsapp');
+      const leadError = document.getElementById('leadCaptureError');
+      const leadSubmit = leadForm ? leadForm.querySelector('button[type="submit"]') : null;
+      let lastFocusedElement = null;
+
+      function checkoutWithTracking() {
+        const target = new URL(checkoutUrl);
+        const params = new URLSearchParams(window.location.search);
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid'].forEach(function (key) {
+          const value = params.get(key);
+          if (value) target.searchParams.set(key, value);
+        });
+        return target.toString();
+      }
+
+      function openLeadModal() {
+        if (!leadModal) return;
+        lastFocusedElement = document.activeElement;
+        leadModal.hidden = false;
+        leadModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        requestAnimationFrame(function () { leadModal.classList.add('is-open'); });
+        window.setTimeout(function () { leadName.focus(); }, 80);
+        if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout');
+      }
+
+      function closeLeadModal() {
+        if (!leadModal) return;
+        leadModal.classList.remove('is-open');
+        leadModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        window.setTimeout(function () { leadModal.hidden = true; }, 220);
+        if (lastFocusedElement && lastFocusedElement.focus) lastFocusedElement.focus();
+      }
+
       document.querySelectorAll('[data-checkout]').forEach(function (button) {
-        button.addEventListener('click', function () { window.location.assign(checkoutUrl); });
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          if (sessionStorage.getItem('ppu_lead_captured') === '1') {
+            window.location.assign(checkoutWithTracking());
+            return;
+          }
+          openLeadModal();
+        });
+      });
+
+      if (leadModal) {
+        leadModal.addEventListener('click', function (event) {
+          if (event.target === leadModal || event.target.closest('[data-lead-close]')) closeLeadModal();
+        });
+        leadModal.querySelectorAll('[data-lead-legal]').forEach(function (link) {
+          link.addEventListener('click', closeLeadModal);
+        });
+      }
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && leadModal && !leadModal.hidden) closeLeadModal();
+      });
+
+      function maskWhatsapp(value) {
+        let digits = value.replace(/\D/g, '');
+        if (digits.startsWith('55') && digits.length > 11) digits = digits.slice(2);
+        digits = digits.slice(0, 11);
+        if (digits.length <= 2) return digits.replace(/^(\d{0,2})/, '($1');
+        if (digits.length <= 7) return digits.replace(/^(\d{2})(\d+)/, '($1) $2');
+        if (digits.length <= 10) return digits.replace(/^(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
+        return digits.replace(/^(\d{2})(\d{5})(\d+)/, '($1) $2-$3');
+      }
+      if (leadWhatsapp) {
+        leadWhatsapp.addEventListener('input', function () {
+          leadWhatsapp.value = maskWhatsapp(leadWhatsapp.value);
+          leadError.textContent = '';
+        });
+      }
+      if (leadName) leadName.addEventListener('input', function () { leadError.textContent = ''; });
+
+      if (leadForm) leadForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const nome = leadName.value.trim();
+        let phoneDigits = leadWhatsapp.value.replace(/\D/g, '');
+        if (phoneDigits.startsWith('55') && phoneDigits.length > 11) phoneDigits = phoneDigits.slice(2);
+        if (nome.length < 2) {
+          leadError.textContent = 'Digite seu nome para continuar.';
+          leadName.focus();
+          return;
+        }
+        if (!/^\d{10,11}$/.test(phoneDigits)) {
+          leadError.textContent = 'Digite um WhatsApp válido com DDD.';
+          leadWhatsapp.focus();
+          return;
+        }
+
+        leadSubmit.disabled = true;
+        leadSubmit.textContent = 'ABRINDO PAGAMENTO...';
+        const destination = checkoutWithTracking();
+        const query = new URLSearchParams(window.location.search);
+        const payload = {
+          nome: nome,
+          whatsapp: '55' + phoneDigits,
+          website: leadForm.elements.website.value,
+          source_page: window.location.href,
+          checkout_url: destination,
+          utm_source: query.get('utm_source'),
+          utm_medium: query.get('utm_medium'),
+          utm_campaign: query.get('utm_campaign'),
+          utm_content: query.get('utm_content'),
+          utm_term: query.get('utm_term'),
+          fbclid: query.get('fbclid'),
+          gclid: query.get('gclid'),
+          ttclid: query.get('ttclid')
+        };
+        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+
+        const controller = new AbortController();
+        const timeout = window.setTimeout(function () { controller.abort(); }, 2800);
+        try {
+          await fetch(leadEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true,
+            signal: controller.signal
+          });
+          sessionStorage.setItem('ppu_lead_captured', '1');
+        } catch (error) {
+          try {
+            navigator.sendBeacon(leadEndpoint, new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+          } catch (beaconError) {}
+        } finally {
+          window.clearTimeout(timeout);
+          window.location.assign(destination);
+        }
       });
       const track = document.querySelector('[data-carousel-track]');
       const prevBtn = document.querySelector('[data-carousel-prev]');
