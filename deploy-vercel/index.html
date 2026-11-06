@@ -2064,6 +2064,50 @@
       .lead-form__input { min-height: 54px; }
     }
 
+    /* Contador de encerramento da oferta */
+    .offer-countdown {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 38px;
+      padding: 7px 14px;
+      background: #111;
+      color: #fff;
+      font-family: Inter, Arial, sans-serif;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+    }
+    .offer-countdown__label {
+      color: #ef4444;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .offer-countdown__time {
+      min-width: 126px;
+      color: #fff;
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .025em;
+      text-align: left;
+    }
+    @media (max-width: 420px) {
+      .offer-countdown {
+        min-height: 36px;
+        gap: 7px;
+        padding: 6px 10px;
+      }
+      .offer-countdown__label { font-size: 8px; }
+      .offer-countdown__time {
+        min-width: 117px;
+        font-size: 12px;
+      }
+    }
+
   </style>
   <!-- META PIXELS - FACEBOOK ADS -->
   <script>
@@ -2099,6 +2143,11 @@
 </head>
 
 <body>
+  <div class="offer-countdown" data-offer-countdown role="timer" aria-label="Tempo restante da oferta">
+    <span class="offer-countdown__label">Oferta encerra em</span>
+    <strong class="offer-countdown__time" data-offer-countdown-time>--d --h --m --s</strong>
+  </div>
+
   <main>
     <section class="hero" aria-label="Protocolo Produto Único">
       <div class="hero__desktop">
@@ -2944,6 +2993,37 @@
         window.clearTimeout(hideTimer);
         window.clearTimeout(nextTimer);
       });
+    }());
+  </script>
+
+  <script>
+    (function () {
+      const output = document.querySelector('[data-offer-countdown-time]');
+      if (!output) return;
+      const deadline = new Date('2026-11-08T23:59:00-03:00').getTime();
+      let timer;
+
+      function updateOfferCountdown() {
+        const remaining = Math.max(0, deadline - Date.now());
+        if (remaining <= 0) {
+          output.textContent = 'OFERTA ENCERRADA';
+          window.clearInterval(timer);
+          return;
+        }
+        const days = Math.floor(remaining / 86400000);
+        const hours = Math.floor((remaining % 86400000) / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+        output.textContent =
+          String(days).padStart(2, '0') + 'd ' +
+          String(hours).padStart(2, '0') + 'h ' +
+          String(minutes).padStart(2, '0') + 'm ' +
+          String(seconds).padStart(2, '0') + 's';
+      }
+
+      updateOfferCountdown();
+      timer = window.setInterval(updateOfferCountdown, 1000);
+      window.addEventListener('pagehide', function () { window.clearInterval(timer); });
     }());
   </script>
 
