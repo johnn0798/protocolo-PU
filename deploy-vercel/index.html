@@ -2079,15 +2079,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      color: #ef4444;
       font-size: 9px;
       font-weight: 700;
-      letter-spacing: .075em;
-      text-transform: uppercase;
-    }
-    .offer-progress__copy strong {
-      color: #e2a249;
-      font-weight: 800;
+      letter-spacing: .045em;
     }
     .offer-progress__track {
       width: min(100%, 420px);
@@ -2148,9 +2143,7 @@
 <body>
   <div class="offer-progress" data-offer-progress-bar aria-label="Prazo da oferta">
     <div class="offer-progress__copy">
-      <span>Oferta especial</span>
-      <span aria-hidden="true">•</span>
-      <strong data-offer-progress-label>Até 08/11 às 23:59</strong>
+      <span data-offer-progress-label>Essa oferta especial encerrará em breve.</span>
     </div>
     <div class="offer-progress__track" aria-hidden="true">
       <span class="offer-progress__fill" data-offer-progress-fill></span>
