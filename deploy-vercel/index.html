@@ -2064,48 +2064,51 @@
       .lead-form__input { min-height: 54px; }
     }
 
-    /* Contador de encerramento da oferta */
-    .offer-countdown {
+    /* Barra sutil de progresso da oferta */
+    .offer-progress {
       position: sticky;
       top: 0;
       z-index: 9999;
+      padding: 7px 16px 8px;
+      background: #191614;
+      color: #fff;
+      font-family: Inter, Arial, sans-serif;
+      box-shadow: 0 2px 8px rgba(38, 20, 12, .12);
+    }
+    .offer-progress__copy {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      min-height: 38px;
-      padding: 7px 14px;
-      background: #111;
-      color: #fff;
-      font-family: Inter, Arial, sans-serif;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
-    }
-    .offer-countdown__label {
-      color: #ef4444;
+      gap: 8px;
       font-size: 9px;
-      font-weight: 800;
-      letter-spacing: .11em;
+      font-weight: 700;
+      letter-spacing: .075em;
       text-transform: uppercase;
     }
-    .offer-countdown__time {
-      min-width: 126px;
-      color: #fff;
-      font-size: 13px;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .025em;
-      text-align: left;
+    .offer-progress__copy strong {
+      color: #e2a249;
+      font-weight: 800;
+    }
+    .offer-progress__track {
+      width: min(100%, 420px);
+      height: 2px;
+      margin: 6px auto 0;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .16);
+    }
+    .offer-progress__fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #c98424, #f2b85d);
+      transition: width .6s ease;
     }
     @media (max-width: 420px) {
-      .offer-countdown {
-        min-height: 36px;
-        gap: 7px;
-        padding: 6px 10px;
-      }
-      .offer-countdown__label { font-size: 8px; }
-      .offer-countdown__time {
-        min-width: 117px;
-        font-size: 12px;
-      }
+      .offer-progress { padding: 6px 12px 7px; }
+      .offer-progress__copy { font-size: 8px; }
+      .offer-progress__track { margin-top: 5px; }
     }
 
   </style>
@@ -2143,9 +2146,15 @@
 </head>
 
 <body>
-  <div class="offer-countdown" data-offer-countdown role="timer" aria-label="Tempo restante da oferta">
-    <span class="offer-countdown__label">Oferta encerra em</span>
-    <strong class="offer-countdown__time" data-offer-countdown-time>--d --h --m --s</strong>
+  <div class="offer-progress" data-offer-progress-bar aria-label="Prazo da oferta">
+    <div class="offer-progress__copy">
+      <span>Oferta especial</span>
+      <span aria-hidden="true">•</span>
+      <strong data-offer-progress-label>Até 08/11 às 23:59</strong>
+    </div>
+    <div class="offer-progress__track" aria-hidden="true">
+      <span class="offer-progress__fill" data-offer-progress-fill></span>
+    </div>
   </div>
 
   <main>
@@ -2998,32 +3007,28 @@
 
   <script>
     (function () {
-      const output = document.querySelector('[data-offer-countdown-time]');
-      if (!output) return;
-      const deadline = new Date('2026-11-08T23:59:00-03:00').getTime();
-      let timer;
+      const fill = document.querySelector('[data-offer-progress-fill]');
+      const label = document.querySelector('[data-offer-progress-label]');
+      if (!fill || !label) return;
 
-      function updateOfferCountdown() {
-        const remaining = Math.max(0, deadline - Date.now());
-        if (remaining <= 0) {
-          output.textContent = 'OFERTA ENCERRADA';
-          window.clearInterval(timer);
-          return;
+      const campaignStart = new Date('2026-11-06T00:00:00-03:00').getTime();
+      const deadline = new Date('2026-11-08T23:59:00-03:00').getTime();
+
+      function updateOfferProgress() {
+        const now = Date.now();
+        const elapsed = now - campaignStart;
+        const duration = deadline - campaignStart;
+        const progress = Math.min(100, Math.max(0, (elapsed / duration) * 100));
+        fill.style.width = progress.toFixed(2) + '%';
+
+        if (now >= deadline) {
+          label.textContent = 'Oferta encerrada';
         }
-        const days = Math.floor(remaining / 86400000);
-        const hours = Math.floor((remaining % 86400000) / 3600000);
-        const minutes = Math.floor((remaining % 3600000) / 60000);
-        const seconds = Math.floor((remaining % 60000) / 1000);
-        output.textContent =
-          String(days).padStart(2, '0') + 'd ' +
-          String(hours).padStart(2, '0') + 'h ' +
-          String(minutes).padStart(2, '0') + 'm ' +
-          String(seconds).padStart(2, '0') + 's';
       }
 
-      updateOfferCountdown();
-      timer = window.setInterval(updateOfferCountdown, 1000);
-      window.addEventListener('pagehide', function () { window.clearInterval(timer); });
+      updateOfferProgress();
+      const progressTimer = window.setInterval(updateOfferProgress, 60000);
+      window.addEventListener('pagehide', function () { window.clearInterval(progressTimer); });
     }());
   </script>
 
