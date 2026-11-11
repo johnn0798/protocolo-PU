@@ -108,13 +108,13 @@
       outline-offset: 3px;
     }
 
-    /* A primeira dobra termina antes da moldura do botão presente na arte. */
+    /* A primeira dobra usa a arte limpa, sem indicação de botão. */
     .hero {
       position: relative;
       width: 100%;
       height: calc(44.6559vw - 28px);
       overflow: hidden;
-      background: url('imagens/hero-desktop.png') center -68px / 100% auto no-repeat;
+      background: url('imagens/fundo-limpo-ppu.jpeg') center -68px / 100% auto no-repeat;
     }
 
     .hero__desktop {
@@ -749,9 +749,9 @@
       .hero {
         height: calc(73.3138vw - 22px);
         min-height: 0;
-        background-image: url('imagens/hero-mobile.png');
-        background-position: center -62px;
-        background-size: 100% auto;
+        background-image: url('imagens/fundo-limpo-ppu.jpeg');
+        background-position: 74% -62px;
+        background-size: auto 100%;
       }
 
       .hero__desktop {
@@ -846,11 +846,12 @@
     }
 
     .vsl-section__title {
-      max-width: 720px;
+      width: fit-content;
+      max-width: 92vw;
       margin: 0 auto clamp(22px, 4vw, 32px);
-      font: 400 clamp(30px, 6.8vw, 48px)/1.08 "Bebas Neue", Impact, sans-serif;
+      font: 400 clamp(15px, 3.5vw, 40px)/1.08 "Bebas Neue", Impact, sans-serif;
       letter-spacing: .005em;
-      text-wrap: balance;
+      white-space: nowrap;
     }
 
     .vsl-section__player {
@@ -864,7 +865,7 @@
 
     .vsl-delayed-cta {
       display: none;
-      width: min(100%, 400px);
+      width: min(82%, 320px);
       margin: 26px auto 0;
     }
 
@@ -2229,6 +2230,12 @@
     </section>
     <script type="text/javascript">
       var vturbPlayer = document.getElementById('vid-6af3cf30a6eee51f7af7af98');
+      function revealVslCta() {
+        document.querySelector('.vsl-delayed-cta').style.display = 'block';
+      }
+
+      window.setTimeout(revealVslCta, 17000);
+
       vturbPlayer.addEventListener('player:ready', function () {
         vturbPlayer.displayHiddenElements(17, ['.vsl-delayed-cta'], {
           persist: true
