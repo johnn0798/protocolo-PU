@@ -114,7 +114,7 @@
       width: 100%;
       height: calc(44.6559vw - 28px);
       overflow: hidden;
-      background: url('imagens/fundo-limpo-ppu.jpeg') center -68px / 100% auto no-repeat;
+      background: url('imagens/background-ppu.png') center -68px / 100% auto no-repeat;
     }
 
     .hero__desktop {
@@ -747,11 +747,12 @@
 
     @media (max-width:899px) {
       .hero {
-        height: calc(73.3138vw - 22px);
+        /* Leva o início da dobra do vídeo até a marcação do layout mobile. */
+        height: calc(73.3138vw + 22px);
         min-height: 0;
-        background-image: url('imagens/fundo-limpo-ppu.jpeg');
+        background-image: url('imagens/background-ppu.png');
         background-position: 74% -62px;
-        background-size: auto 100%;
+        background-size: auto calc(100% + 62px);
       }
 
       .hero__desktop {
@@ -849,7 +850,7 @@
       width: fit-content;
       max-width: 92vw;
       margin: 0 auto clamp(22px, 4vw, 32px);
-      font: 400 clamp(15px, 3.5vw, 40px)/1.08 "Bebas Neue", Impact, sans-serif;
+      font: 400 clamp(20px, 4.2vw, 40px)/1.08 "Bebas Neue", Impact, sans-serif;
       letter-spacing: .005em;
       white-space: nowrap;
     }
@@ -864,9 +865,24 @@
     }
 
     .vsl-delayed-cta {
-      display: none;
       width: min(82%, 320px);
-      margin: 26px auto 0;
+      max-height: 0;
+      margin: 0 auto;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(16px);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.22, 1, .36, 1), max-height .6s ease, margin-top .6s ease;
+    }
+
+    .vsl-delayed-cta.is-visible {
+      max-height: 90px;
+      margin-top: 26px;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
     .vsl-section__cta {
@@ -890,6 +906,10 @@
       }
 
       .button {
+        transition: none;
+      }
+
+      .vsl-delayed-cta {
         transition: none;
       }
 
@@ -2150,6 +2170,60 @@
       .offer-progress__track { margin-top: 5px; }
     }
 
+    /* Variação: vídeo na primeira dobra */
+    .vsl-hero {
+      min-height: calc(100svh - 36px);
+      padding: clamp(28px, 5vh, 54px) 0 clamp(38px, 6vh, 66px);
+      border-bottom: 1px solid #eadcc7;
+      background: #fff8ec;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .vsl-hero__container {
+      width: min(100% - 24px, 1120px);
+      margin-inline: auto;
+    }
+
+    .vsl-hero__title {
+      margin: 0 auto;
+      color: var(--ink);
+      font: 800 clamp(14px, 4.6vw, 44px)/1.03 Inter, Arial, sans-serif;
+      letter-spacing: -.035em;
+    }
+
+    .vsl-hero__title-line,
+    .vsl-hero__support-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .vsl-hero__support {
+      margin: clamp(12px, 2.4vh, 20px) auto 0;
+      color: #11131b;
+      font: 400 clamp(12px, 3.3vw, 21px)/1.28 Inter, Arial, sans-serif;
+      letter-spacing: -.015em;
+    }
+
+    .vsl-hero__player {
+      width: min(76vw, 300px);
+      margin: clamp(20px, 3.4vh, 30px) auto 0;
+    }
+
+    .vsl-hero .vsl-delayed-cta {
+      width: min(76vw, 300px);
+    }
+
+    @media (min-width: 900px) {
+      .vsl-hero__title {
+        font-size: clamp(34px, 3.1vw, 44px);
+      }
+
+      .vsl-hero__support {
+        font-size: clamp(17px, 1.45vw, 21px);
+      }
+    }
+
   </style>
   <!-- META PIXELS - FACEBOOK ADS -->
   <script>
@@ -2198,27 +2272,17 @@
   </div>
 
   <main>
-    <section class="hero" aria-label="Protocolo Produto Único">
-      <div class="hero__desktop">
-        <h1 class="hero__title"><span class="gold">Bronze</span> dourado,<br>uniforme e com marca<br>perfeita usando
-          apenas<br><span class="gold">um produto.</span></h1>
-        <p class="hero__support">Descubra como <strong>substituir</strong> as misturas por um método simples,
-          <strong>barato</strong> e muito <strong>lucrativo</strong>.
+    <section class="vsl-hero" aria-labelledby="vsl-hero-title">
+      <div class="vsl-hero__container">
+        <h1 class="vsl-hero__title" id="vsl-hero-title">
+          <span class="vsl-hero__title-line"><span class="gold">Bronze</span> dourado, uniforme e com</span>
+          <span class="vsl-hero__title-line">marca <span class="gold">perfeita</span> usando apenas UM produto</span>
+        </h1>
+        <p class="vsl-hero__support">
+          <span class="vsl-hero__support-line">Descubra como <strong>substituir</strong> as misturas por um</span>
+          <span class="vsl-hero__support-line">método <strong>simples</strong>, <strong>barato</strong> e muito <strong>lucrativo</strong>.</span>
         </p>
-      </div>
-      <div class="hero__mobile">
-        <h1 class="hero__title--mobile"><span class="gold">Bronze</span> dourado,<br>uniforme e com<br>marca <span
-            class="gold">perfeita</span><br>usando apenas<br>UM produto</h1>
-        <p class="hero__support--mobile">Descubra como <strong>substituir</strong> as misturas por um método
-          <strong>simples</strong>, <strong>barato</strong> e muito <strong>lucrativo</strong>.
-        </p>
-      </div>
-    </section>
-
-    <section class="vsl-section" aria-labelledby="vsl-title">
-      <div class="container">
-        <h2 class="vsl-section__title" id="vsl-title">Assista ao vídeo antes de continuar</h2>
-        <div class="vsl-section__player">
+        <div class="vsl-section__player vsl-hero__player">
           <vturb-smartplayer id="vid-6af3cf30a6eee51f7af7af98" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
             <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div>
           </vturb-smartplayer>
@@ -2231,16 +2295,19 @@
     <script type="text/javascript">
       var vturbPlayer = document.getElementById('vid-6af3cf30a6eee51f7af7af98');
       function revealVslCta() {
-        document.querySelector('.vsl-delayed-cta').style.display = 'block';
+        var cta = document.querySelector('.vsl-delayed-cta');
+        if (cta) cta.classList.add('is-visible');
       }
 
-      window.setTimeout(revealVslCta, 17000);
+      function scheduleVslCta() {
+        window.setTimeout(revealVslCta, 17000);
+      }
 
-      vturbPlayer.addEventListener('player:ready', function () {
-        vturbPlayer.displayHiddenElements(17, ['.vsl-delayed-cta'], {
-          persist: true
-        });
-      });
+      if (document.readyState === 'complete') {
+        scheduleVslCta();
+      } else {
+        window.addEventListener('load', scheduleVslCta, { once: true });
+      }
 
       var vturbPlayerScript = document.createElement('script');
       vturbPlayerScript.src = 'https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af3cf30a6eee51f7af7af98/v4/player.js';
