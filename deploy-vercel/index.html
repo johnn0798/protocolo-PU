@@ -112,8 +112,7 @@
     .hero {
       position: relative;
       width: 100%;
-      height: auto;
-      aspect-ratio: 1366/610;
+      height: calc(44.6559vw - 28px);
       overflow: hidden;
       background: url('imagens/hero-desktop.png') center -28px / 100% auto no-repeat;
     }
@@ -748,9 +747,8 @@
 
     @media (max-width:899px) {
       .hero {
-        height: auto;
+        height: calc(73.3138vw - 22px);
         min-height: 0;
-        aspect-ratio: 1023/750;
         background-image: url('imagens/hero-mobile.png');
         background-position: center -22px;
         background-size: 100% auto;
