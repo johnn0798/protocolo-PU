@@ -108,13 +108,14 @@
       outline-offset: 3px;
     }
 
-    /* A imagem da primeira dobra já contém as molduras dos botões. */
+    /* A primeira dobra termina antes da moldura do botão presente na arte. */
     .hero {
       position: relative;
       width: 100%;
-      height: 80vh;
+      height: auto;
+      aspect-ratio: 1366/610;
       overflow: hidden;
-      background: url('imagens/hero-desktop.png') center / 100% 100% no-repeat;
+      background: url('imagens/hero-desktop.png') top center / 100% auto no-repeat;
     }
 
     .hero__desktop {
@@ -749,12 +750,13 @@
       .hero {
         height: auto;
         min-height: 0;
-        aspect-ratio: 1023/1071;
+        aspect-ratio: 1023/750;
         background-image: url('imagens/hero-mobile.png');
+        background-position: top center;
+        background-size: 100% auto;
       }
 
-      .hero__desktop,
-      .hero__cta--desktop {
+      .hero__desktop {
         display: none;
       }
 
@@ -776,17 +778,6 @@
         margin-top: clamp(12px, 4.8vw, 42px);
         font-size: clamp(10px, 3.2vw, 29px);
         line-height: 1.3;
-      }
-
-      .hero__cta--mobile {
-        display: inline-flex;
-        left: 9.8%;
-        top: 72%;
-        width: 29.6%;
-        height: 8.4%;
-        min-height: 0;
-        padding: 0 6px;
-        font-size: clamp(10px, 2.8vw, 18px);
       }
 
       .story__grid,
@@ -868,6 +859,27 @@
       border-radius: 16px;
       background: #000;
       box-shadow: 0 22px 54px rgba(0, 0, 0, .38);
+    }
+
+    .vsl-delayed-cta {
+      display: none;
+      width: min(100%, 400px);
+      margin: 26px auto 0;
+    }
+
+    .vsl-section__cta {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid #d47a00;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffb84d 0%, #ffa01c 55%, #e88600 100%);
+      color: #11131b;
+      font-size: clamp(15px, 2vw, 19px);
+      box-shadow: 0 8px 22px rgba(232, 134, 0, .35);
+    }
+
+    .vsl-section__cta:hover {
+      background: linear-gradient(180deg, #ffc266 0%, #ffab33 55%, #f08f0a 100%);
     }
 
     @media (prefers-reduced-motion:reduce) {
@@ -2199,9 +2211,6 @@
           <strong>simples</strong>, <strong>barato</strong> e muito <strong>lucrativo</strong>.
         </p>
       </div>
-      <button class="button hero__cta hero__cta--desktop" type="button" data-checkout>Quero o Protocolo Produto
-        Único</button>
-      <button class="button hero__cta hero__cta--mobile" type="button" data-checkout>Acessar agora</button>
     </section>
 
     <section class="vsl-section" aria-labelledby="vsl-title">
@@ -2212,9 +2221,19 @@
             <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div>
           </vturb-smartplayer>
         </div>
+        <div class="vsl-delayed-cta">
+          <button class="button vsl-section__cta" type="button" data-checkout>Acessar agora</button>
+        </div>
       </div>
     </section>
     <script type="text/javascript">
+      var vturbPlayer = document.getElementById('vid-6af3cf30a6eee51f7af7af98');
+      vturbPlayer.addEventListener('player:ready', function () {
+        vturbPlayer.displayHiddenElements(17, ['.vsl-delayed-cta'], {
+          persist: true
+        });
+      });
+
       var vturbPlayerScript = document.createElement('script');
       vturbPlayerScript.src = 'https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af3cf30a6eee51f7af7af98/v4/player.js';
       vturbPlayerScript.async = true;
