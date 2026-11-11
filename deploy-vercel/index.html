@@ -11,11 +11,12 @@
   <meta property="og:description" content="Simplifique o bronzeamento com um protocolo prático e um único produto.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Protocolo Produto Único 2.0 | PPU">
+  <meta name="theme-color" content="#fffdf8">
   <title>Protocolo Produto Único 2.0 | PPU</title>
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
-  <link rel="preload" href="https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af3cf30a6eee51f7af7af98/v4/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af4759c49fa01f70b9d0e13/v4/player.js" as="script">
   <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-  <link rel="preload" href="https://cdn.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/6af3cf2dca48af3c3652e8a7/main.m3u8" as="fetch" crossorigin>
+  <link rel="preload" href="https://cdn.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/6af47599db541ad5d3bac19a/main.m3u8" as="fetch" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.converteai.net">
   <link rel="dns-prefetch" href="https://scripts.converteai.net">
   <link rel="dns-prefetch" href="https://images.converteai.net">
@@ -841,7 +842,7 @@
     .vsl-section {
       padding: clamp(36px, 5vw, 64px) 0;
       border-top: 1px solid #eadcc7;
-      background: #fff8ec;
+      background: #fffdf8;
       color: #00022b;
       text-align: center;
     }
@@ -886,11 +887,16 @@
     }
 
     .vsl-section__cta {
+      display: flex;
       width: 100%;
       min-height: 52px;
       border: 0;
-      border-radius: 999px;
-      background: #ffa01c;
+      border-radius: 999px !important;
+      overflow: hidden;
+      appearance: none;
+      -webkit-appearance: none;
+      background: #ffa01c !important;
+      clip-path: inset(0 round 999px);
       color: #11131b;
       font-size: clamp(15px, 2vw, 19px);
       box-shadow: 0 8px 22px rgba(232, 134, 0, .35);
@@ -2130,14 +2136,13 @@
 
     /* Barra sutil de progresso da oferta */
     .offer-progress {
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-      padding: 7px 16px 8px;
-      background: #191614;
-      color: #fff;
+      position: relative;
+      padding: 10px 16px 11px;
+      border-bottom: 1px solid #eadcc7;
+      background: #fffdf8;
+      color: var(--ink);
       font-family: Inter, Arial, sans-serif;
-      box-shadow: 0 2px 8px rgba(38, 20, 12, .12);
+      box-shadow: none;
     }
     .offer-progress__copy {
       display: flex;
@@ -2154,7 +2159,7 @@
       margin: 6px auto 0;
       overflow: hidden;
       border-radius: 999px;
-      background: rgba(255, 255, 255, .16);
+      background: #eadcc7;
     }
     .offer-progress__fill {
       display: block;
@@ -2201,7 +2206,7 @@
     .vsl-hero__support {
       margin: clamp(12px, 2.4vh, 20px) auto 0;
       color: #11131b;
-      font: 400 clamp(17px, 4.7vw, 21px)/1.24 Inter, Arial, sans-serif;
+      font: 400 clamp(14px, 4.5vw, 21px)/1.24 Inter, Arial, sans-serif;
       letter-spacing: -.02em;
     }
 
@@ -2212,6 +2217,7 @@
 
     .vsl-hero .vsl-delayed-cta {
       width: min(76vw, 300px);
+      border-radius: 999px;
     }
 
     @media (min-width: 900px) {
@@ -2275,15 +2281,15 @@
     <section class="vsl-hero" aria-labelledby="vsl-hero-title">
       <div class="vsl-hero__container">
         <h1 class="vsl-hero__title" id="vsl-hero-title">
-          <span class="vsl-hero__title-line"><span class="gold">BRONZE</span> DOURADO E MARCA</span>
-          <span class="vsl-hero__title-line"><span class="gold">PERFEITA</span> COM APENAS UM PRODUTO</span>
+          <span class="vsl-hero__title-line"><span class="gold">BRONZE DOURADO</span> E MARCA</span>
+          <span class="vsl-hero__title-line"><span class="gold">PERFEITA</span> USANDO APENAS UM PRODUTO</span>
         </h1>
         <p class="vsl-hero__support">
-          <span class="vsl-hero__support-line">Troque as misturas por um método</span>
-          <span class="vsl-hero__support-line"><strong>simples</strong>, <strong>barato</strong> e mais <strong>lucrativo</strong>.</span>
+          <span class="vsl-hero__support-line">Como trocar as misturas por um protocolo</span>
+          <span class="vsl-hero__support-line"><strong>simples</strong>, <strong>econômico</strong> e <strong>lucrativo</strong>.</span>
         </p>
         <div class="vsl-section__player vsl-hero__player">
-          <vturb-smartplayer id="vid-6af3cf30a6eee51f7af7af98" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
+          <vturb-smartplayer id="vid-6af4759c49fa01f70b9d0e13" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
             <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div>
           </vturb-smartplayer>
         </div>
@@ -2293,7 +2299,7 @@
       </div>
     </section>
     <script type="text/javascript">
-      var vturbPlayer = document.getElementById('vid-6af3cf30a6eee51f7af7af98');
+      var vturbPlayer = document.getElementById('vid-6af4759c49fa01f70b9d0e13');
       function revealVslCta() {
         var cta = document.querySelector('.vsl-delayed-cta');
         if (cta) cta.classList.add('is-visible');
@@ -2310,7 +2316,7 @@
       }
 
       var vturbPlayerScript = document.createElement('script');
-      vturbPlayerScript.src = 'https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af3cf30a6eee51f7af7af98/v4/player.js';
+      vturbPlayerScript.src = 'https://scripts.converteai.net/3e9ef144-ac95-4ee7-8dd6-b5a57fa8d162/players/6af4759c49fa01f70b9d0e13/v4/player.js';
       vturbPlayerScript.async = true;
       document.head.appendChild(vturbPlayerScript);
     </script>
