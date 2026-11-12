@@ -2877,6 +2877,8 @@
   <script>
     (function () {
       const checkoutUrl = 'https://pay.hotmart.com/M108385385Y?checkoutMode=10';
+      // Reativação rápida: mude para true para exigir novamente o pré-checkout.
+      const preCheckoutEnabled = false;
       const protectedImages = document.querySelectorAll('img');
       protectedImages.forEach(function (image) {
         image.draggable = false;
@@ -2936,6 +2938,11 @@
       document.querySelectorAll('[data-checkout]').forEach(function (button) {
         button.addEventListener('click', function (event) {
           event.preventDefault();
+          // Pré-checkout desativado: CTA direto para Hotmart, mantendo UTMs e IDs de anúncio.
+          if (!preCheckoutEnabled) {
+            window.location.assign(checkoutWithTracking());
+            return;
+          }
           if (sessionStorage.getItem('ppu_lead_captured') === '1') {
             window.location.assign(checkoutWithTracking());
             return;
