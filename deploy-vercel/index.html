@@ -2921,7 +2921,7 @@
         document.body.classList.add('modal-open');
         requestAnimationFrame(function () { leadModal.classList.add('is-open'); });
         window.setTimeout(function () { leadName.focus(); }, 80);
-        if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout');
+        if (typeof window.fbq === 'function') window.fbq('trackCustom', 'PreCheckoutOpen');
       }
 
       function closeLeadModal() {
