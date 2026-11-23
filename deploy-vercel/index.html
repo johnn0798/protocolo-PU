@@ -2873,7 +2873,7 @@
 
   <script>
     (function () {
-      const checkoutUrl = 'https://pay.hotmart.com/M108385385Y?checkoutMode=10';
+      const checkoutUrl = 'https://pay.kiwify.com.br/AJjeR23';
       // Reativação rápida: mude para true para exigir novamente o pré-checkout.
       const preCheckoutEnabled = false;
       const protectedImages = document.querySelectorAll('img');
@@ -2935,7 +2935,7 @@
       document.querySelectorAll('[data-checkout]').forEach(function (button) {
         button.addEventListener('click', function (event) {
           event.preventDefault();
-          // Pré-checkout desativado: CTA direto para Hotmart, mantendo UTMs e IDs de anúncio.
+          // Pré-checkout desativado: CTA direto para Kiwify, mantendo UTMs e IDs de anúncio.
           if (!preCheckoutEnabled) {
             window.location.assign(checkoutWithTracking());
             return;
